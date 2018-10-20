@@ -155,4 +155,11 @@ public class WordActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //When the activity is stopped, release MediaPlayer
+        releaseMediaPlayer();
+    }
 }
