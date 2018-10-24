@@ -29,8 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WordActivity" android:label="Dictionary Words"
-            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

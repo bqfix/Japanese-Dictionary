@@ -6,8 +6,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class WordFragmentPagerAdapter extends FragmentPagerAdapter {
 
+    //Constructor uses Super Constructor
     public WordFragmentPagerAdapter(FragmentManager fm) {super(fm);}
 
+    //Instantiate fragments passing in arguments to decide which words to show
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -19,6 +21,7 @@ public class WordFragmentPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
+    //Set titles of fragments
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
@@ -30,6 +33,7 @@ public class WordFragmentPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
+    //Set number of fragments
     @Override
     public int getCount() {
         return 4;
