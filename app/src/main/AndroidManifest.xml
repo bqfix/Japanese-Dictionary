@@ -31,10 +31,6 @@
         </activity>
         <activity android:name=".WordActivity" android:label="Dictionary Words"
             android:parentActivityName=".MainActivity"/>
-        <activity android:name=".NumbersActivity" android:label="Numbers"/>
-        <activity android:name=".FamilyActivity" android:label="Family" />
-        <activity android:name=".ColorsActivity" android:label="Colors" />
-        <activity android:name=".PhrasesActivity" android:label="Phrases"/>
     </application>
 
 </manifest>
