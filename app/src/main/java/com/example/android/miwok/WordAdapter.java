@@ -63,8 +63,10 @@ public class WordAdapter extends ArrayAdapter<Word> {
 
         //Set background color
         LinearLayout listItemTextViews = (LinearLayout) listItemView.findViewById(R.id.list_item_text_views);
+        ImageView arrowImageView = (ImageView) listItemView.findViewById(R.id.arrow_image_view);
         int color = ContextCompat.getColor(getContext(), mColorResourceID);
         listItemTextViews.setBackgroundColor(color);
+        arrowImageView.setBackgroundColor(color);
 
 //        //Defunct? Set media player
 //        mMediaPlayer = MediaPlayer.create(getContext(), currentWord.getAudioResourceID());

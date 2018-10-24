@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/list_item_height">
+    android:layout_height="@dimen/list_item_height"
+    tools:background="@color/category_colors">
 
     <ImageView
         android:id="@+id/vocab_image_view"
@@ -30,4 +31,14 @@
             tools:text="one" />
 
     </LinearLayout>
+
+    <!--Image accessed from https://material.io/tools/icons/?icon=play_arrow&style=baseline-->
+    <ImageView
+        android:id="@+id/arrow_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:paddingRight="16dp"
+        android:src="@drawable/baseline_play_arrow_white_24"/>
+
 </LinearLayout>

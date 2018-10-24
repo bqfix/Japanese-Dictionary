@@ -1,6 +1,8 @@
 package com.example.android.miwok;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -80,9 +82,11 @@ public class WordActivity extends AppCompatActivity {
         if (mMediaPlayer != null) {
             mMediaPlayer.release();
             mMediaPlayer = null;
+            mAudioManager.abandonAudioFocus(mAudioFocusListener);
         }
     }
 
+    //Initialized OnCompletionListener to know when to release MediaPlayer after playback
     private final MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
@@ -90,10 +94,29 @@ public class WordActivity extends AppCompatActivity {
         }
     };
 
+    //Initialize an AudioManager
+    private AudioManager mAudioManager;
+
+
+    //Initialize AudioFocus Listener
+    AudioManager.OnAudioFocusChangeListener mAudioFocusListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                mMediaPlayer.start();
+            } else {
+                releaseMediaPlayer();
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
+
+        //Up button functionality
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Choose the ArrayList
         Intent previousIntent = getIntent();
@@ -138,6 +161,9 @@ public class WordActivity extends AppCompatActivity {
         //Assign items to ListView via adapter
         listView.setAdapter(itemsAdapter);
 
+        //Assign Audio Manager
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
 
 
         //Create ItemClickListener for media playback
@@ -146,11 +172,16 @@ public class WordActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //Release media player resources if currently playing
                 releaseMediaPlayer();
-                //Create and execute new media player based on object clicked
-                mMediaPlayer = MediaPlayer.create(WordActivity.this, words.get(i).getAudioResourceID());
-                mMediaPlayer.start();
-                //Create OnCompletionListener to deactivate MediaPlayer instance after playback
-                mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+                //Request Audio Focus
+                int result = mAudioManager.requestAudioFocus(mAudioFocusListener,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    //Create and execute new media player based on object clicked
+                    mMediaPlayer = MediaPlayer.create(WordActivity.this, words.get(i).getAudioResourceID());
+                    mMediaPlayer.start();
+                    //Create OnCompletionListener to deactivate MediaPlayer instance after playback
+                    mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+                }
             }
         });
 
