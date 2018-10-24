@@ -3,6 +3,8 @@ package com.example.android.miwok;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -21,50 +23,15 @@ public class MainActivity extends AppCompatActivity {
         // Set the content of the activity to use the activity_main.xml layout file
         setContentView(R.layout.activity_main);
 
+        //Set ViewPager
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        TextView numbers = (TextView) findViewById(R.id.numbers);
-        numbers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent openWords = new Intent(MainActivity.this, WordActivity.class);
-                openWords.putExtra("words", "numbers");
-                startActivity(openWords);
-            }});
+        //Create an adapter for each page
+        FragmentPagerAdapter fragmentPagerAdapter = new WordFragmentPagerAdapter(getSupportFragmentManager());
 
+        //Set the adapter per page
+        viewPager.setAdapter(fragmentPagerAdapter);
 
-        TextView family = (TextView) findViewById(R.id.family);
-        family.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent openWords = new Intent(MainActivity.this, WordActivity.class);
-                openWords.putExtra("words", "family");
-                startActivity(openWords);
-            }
-        });
-
-
-        TextView phrases = (TextView) findViewById(R.id.phrases);
-        phrases.setOnClickListener(new View.OnClickListener()
-
-        {
-            @Override
-            public void onClick (View view){
-                Intent openWords = new Intent(MainActivity.this, WordActivity.class);
-                openWords.putExtra("words", "phrases");
-                startActivity(openWords);
-            }
-        });
-
-
-        TextView colors = (TextView) findViewById(R.id.colors);
-        colors.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent openWords = new Intent(MainActivity.this, WordActivity.class);
-                openWords.putExtra("words", "colors");
-                startActivity(openWords);
-            }
-        });
 
     }
 }

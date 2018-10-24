@@ -4,16 +4,44 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class WordActivity extends AppCompatActivity {
+
+public class WordFragment extends Fragment {
+    // the fragment initialization parameters
+    private static final String ARG_SUBJECT = "subject";
+
+    private String mSubject;
+
+
+    public WordFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param subject The type of words to generate (numbers, phrases, colors, or family)
+     * @return A new instance of fragment WordFragment.
+     */
+    public static WordFragment newInstance(String subject) {
+        WordFragment fragment = new WordFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_SUBJECT, subject);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     /*ArrayLists of items to be displayed
         Images accessed from https://github.com/udacity/ud839_Miwok/tree/image_assets
@@ -59,7 +87,7 @@ public class WordActivity extends AppCompatActivity {
             new Word("ki-nasai","Come here.", R.raw.phrase_come_here)));
 
     //Colors ArrayList
-     ArrayList<Word> colors = new ArrayList<Word>(Arrays.asList(
+    ArrayList<Word> colors = new ArrayList<Word>(Arrays.asList(
             new Word("aka","red", R.raw.color_red, R.drawable.color_red),
             new Word("midori","green", R.raw.color_green, R.drawable.color_green),
             new Word("chairo","brown", R.raw.color_brown, R.drawable.color_brown),
@@ -111,18 +139,23 @@ public class WordActivity extends AppCompatActivity {
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.word_list);
+        if (getArguments() != null) {
+            mSubject = getArguments().getString(ARG_SUBJECT);
+        }
+    }
 
-        //Up button functionality
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView =  inflater.inflate(R.layout.word_list, container, false);
 
         //Choose the ArrayList
-        Intent previousIntent = getIntent();
         ArrayList<Word> tempwords;
         int backgroundColor;
-        String arrayChoice = previousIntent.getStringExtra("words");
+        String arrayChoice = mSubject;
         switch (arrayChoice) {
             case "numbers":
                 tempwords = numbers;
@@ -153,16 +186,16 @@ public class WordActivity extends AppCompatActivity {
         final ArrayList<Word> words = tempwords;
 
         //Create array adapter
-        WordAdapter itemsAdapter = new WordAdapter(this, words, backgroundColor);
+        WordAdapter itemsAdapter = new WordAdapter(getActivity(), words, backgroundColor);
 
         //Assign ListView for activity
-        ListView listView = (ListView) findViewById(R.id.list);
+        ListView listView = (ListView) rootView.findViewById(R.id.list);
 
         //Assign items to ListView via adapter
         listView.setAdapter(itemsAdapter);
 
         //Assign Audio Manager
-        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
 
 
 
@@ -177,7 +210,7 @@ public class WordActivity extends AppCompatActivity {
 
                 if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     //Create and execute new media player based on object clicked
-                    mMediaPlayer = MediaPlayer.create(WordActivity.this, words.get(i).getAudioResourceID());
+                    mMediaPlayer = MediaPlayer.create(getActivity(), words.get(i).getAudioResourceID());
                     mMediaPlayer.start();
                     //Create OnCompletionListener to deactivate MediaPlayer instance after playback
                     mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
@@ -185,12 +218,13 @@ public class WordActivity extends AppCompatActivity {
             }
         });
 
+        return rootView;
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
-        //When the activity is stopped, release MediaPlayer
         releaseMediaPlayer();
     }
+
 }
