@@ -1,32 +1,16 @@
-Miwok App
-===================================
+= Japanese Dictionary
 
-This app displays lists of vocabulary words for the user to learn the Miwok language.
-Used in a Udacity course in the Beginning Android Nanodegree.
+### Description
+This is a Japanese dictionary that utilizes locally stored assets to create a small subset of words for the user to peruse.
+This project was built for the Udacity Android Developement for Beginners nanodegree.
 
-Pre-requisites
---------------
+### What I accomplished in this project:
 
-- Android SDK v23
-- Android Build Tools v23.0.2
-- Android Support Repository v23.3.0
+* Created a miniature dictionary containing 40 Japanese words, their translations, and relevant pictures.
+* Utilized AudioManager and MediaPlayer to pronounce the word on click.
+* Implemented ViewPager and fragments to create easy and smooth access to different categories.
 
-Getting Started
----------------
-
-This sample uses the Gradle build system. To build this project, use the
-"gradlew build" command or use "Import Project" in Android Studio.
-
-Support
--------
-
-- Google+ Community: https://plus.google.com/communities/105153134372062985968
-- Stack Overflow: http://stackoverflow.com/questions/tagged/android
-
-Patches are encouraged, and may be submitted by forking this project and
-submitting a pull request through GitHub. Please see CONTRIBUTING.md for more details.
-
-License
+### License
 -------
 
 Copyright 2016 The Android Open Source Project, Inc.
