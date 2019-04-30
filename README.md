@@ -1,4 +1,4 @@
-= Japanese Dictionary
+# Japanese Dictionary
 
 ### Description
 This is a Japanese dictionary that utilizes locally stored assets to create a small subset of words for the user to peruse.
